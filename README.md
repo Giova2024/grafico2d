@@ -1,3 +1,42 @@
 # grafico2d
 crea un grafico 2d da una funzione
-https://github.com/Giova2024/grafico2d/blob/main/funzione%20grafico%202d.html
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Grafico Funzione Matematica</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+</head>
+<body>
+  <h2>Inserisci una funzione in x (es: sin(x), x^2, log(x))</h2>
+  <input type="text" id="funzione" placeholder="Inserisci funzione" />
+  <button onclick="disegna()">Disegna</button>
+  <div id="grafico" style="width:600px;height:400px;"></div>
+
+  <script>
+    function disegna() {
+      const input = document.getElementById("funzione").value;
+      const expr = math.compile(input);
+
+      let x = [], y = [];
+      for (let i = -10; i <= 10; i += 0.1) {
+        x.push(i);
+        try {
+          y.push(expr.evaluate({x: i}));
+        } catch (e) {
+          y.push(null);
+        }
+      }
+
+      const trace = {
+        x: x,
+        y: y,
+        type: 'scatter'
+      };
+
+      Plotly.newPlot("grafico", [trace]);
+    }
+  </script>
+</body>
+</html>
